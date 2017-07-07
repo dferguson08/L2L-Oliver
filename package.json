@@ -18,8 +18,7 @@
   "homepage": "https://github.com/dferguson08/L2L-Oliver#readme",
   "dependencies": {
     "eslint": "^4.1.1",
-    "express": "^4.15.3",
-    "mysql": "^2.13.0"
+    "express": "^4.15.3"
   },
   "devDependencies": {
     "eslint-config-standard": "^10.2.1",
