@@ -1,22 +1,42 @@
 const express = require('express');
+var bodyParser = require('body-parser');
+
 const app = express();
+app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
-  res.send('Hello World with DB!');
+const PORT = process.env.PORT;
+
+app.get('/inventory', function (req, res) {
+  res.send({
+    vehicles: [
+      {
+        vin: '111111111111111',
+        make: 'Test',
+        model: 'Test',
+        year: 1988
+      }
+    ]
+  });
 });
 
-app.post('/', function (req, res) {
-  res.send('Got a POST request');
+app.post('/vehicles', function (req, res) {
+  const { vin, make, model, year } = req.body;
+  req.body.id = Math.ceil(Math.random() * 100);
+  res.send(req.body).status(201);
 });
 
-app.put('/user', function (req, res) {
-  res.send('Got a PUT request at /user');
+app.put('/vehicles/:id', function (req, res) {
+  // const id = req.params.id;
+  // if (db.call(id)) {
+  //   update(req.body);
+  // }
+  res.status(404);
 });
 
-app.delete('/user', function (req, res) {
+app.delete('/vehicles/:id', function (req, res) {
   res.send('Got a DELETE requests at /user');
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+app.listen(PORT, function () {
+  console.log(`Example app listening on port ${PORT}!`);
 });
