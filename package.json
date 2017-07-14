@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
-    "start": "PORT=3000 supervisor --watch . server.js"
+    "start": "PORT=3000 supervisor --watch . server.js",
+    "knex": "knex --"
   },
   "repository": {
     "type": "git",
@@ -20,8 +21,11 @@
   "homepage": "https://github.com/dferguson08/L2L-Oliver#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
     "eslint": "^4.1.1",
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "knex": "^0.13.0",
+    "pg": "^6.4.0"
   },
   "devDependencies": {
     "eslint-config-standard": "^10.2.1",
