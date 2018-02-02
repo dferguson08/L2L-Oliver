@@ -1,7 +1,9 @@
 const express = require('express');
 var bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 
 const config = require('./knexfile');
@@ -40,7 +42,7 @@ app.get('/vehicles/:vin', async function (req, res) {
 
 app.post('/vehicles', async function (req, res) {
   const { vin, make, model, year } = req.body;
-  if (!make || !model || !year){
+  if (!make || !model || !year) {
     return res.status(400).send({
       error: 'Request must contain make, model, and year'
     });
@@ -112,8 +114,21 @@ app.put('/vehicles/:vin', async function (req, res) {
 });
 // generally you want to pass the entire object back, but updated
 
-app.delete('/vehicles/:id', function (req, res) {
-  res.send('Got a DELETE requests at /user');
+app.delete('/vehicles/:vin', async function (req, res) {
+  const { vin } = req.params;
+  // before we delete, we want to see if the vin exists
+  const vehicle = await fetchVehicleByVIN(vin);
+  if (!vehicle) {
+    return res.status(400).send();
+  }
+  try {
+    await knex('vehicles').where('vin', vin).delete();
+    return res.status(204).send();
+  } catch (ex) {
+    return res.status(400).send({
+      error: 'An error occurred while entering vehicles into the DB'
+    });
+  }
 });
 
 app.listen(PORT, function () {
